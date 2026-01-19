@@ -1,0 +1,36 @@
+export const LOCATIONS = [
+  'Airport',
+  'Bank',
+  'Beach',
+  'Casino',
+  'Circus',
+  'Hospital',
+  'Hotel',
+  'Military Base',
+  'Movie Studio',
+  'Ocean Liner',
+  'Passenger Train',
+  'Pirate Ship',
+  'Polar Station',
+  'Police Station',
+  'Restaurant',
+  'School',
+  'Space Station',
+  'Submarine',
+  'Supermarket',
+  'Theater',
+  'University',
+  'Airplane',
+  'Church',
+  'Corporate Party',
+  'Crusader Army',
+  'Day Spa',
+  'Embassy',
+  'Library',
+  'Night Club',
+  'Art Museum',
+];
+
+export function getRandomLocation(): string {
+  return LOCATIONS[Math.floor(Math.random() * LOCATIONS.length)];
+}
