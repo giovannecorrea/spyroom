@@ -2,11 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations, useLocale } from "next-intl";
 import { useSocket } from "@/hooks/useSocket";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { Locale } from "@/i18n/config";
 
 export default function Home() {
   const router = useRouter();
   const { isConnected, error, setError, createRoom, joinRoom } = useSocket();
+  const t = useTranslations();
+  const locale = useLocale() as Locale;
 
   const [joinCode, setJoinCode] = useState("");
   const [nickname, setNickname] = useState("");
@@ -55,10 +60,11 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 flex flex-col items-center justify-center p-4">
-      {/* Connection Status */}
-      <div className="absolute top-4 right-4">
+      {/* Connection Status & Language Switcher */}
+      <div className="absolute top-4 right-4 flex items-center gap-3">
+        <LanguageSwitcher currentLocale={locale} />
         <div className={`w-3 h-3 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`}
-             title={isConnected ? 'Connected' : 'Disconnected'} />
+             title={isConnected ? t('common.connected') : t('common.disconnected')} />
       </div>
 
       {/* Logo/Title */}
@@ -66,7 +72,7 @@ export default function Home() {
         <h1 className="text-5xl md:text-7xl font-bold text-white mb-2 tracking-tight">
           Spy<span className="text-red-500">Room</span>
         </h1>
-        <p className="text-gray-400 text-lg">Find the spy among you</p>
+        <p className="text-gray-400 text-lg">{t('home.subtitle')}</p>
       </div>
 
       {/* Error Message */}
@@ -83,13 +89,13 @@ export default function Home() {
             onClick={() => setShowCreateForm(true)}
             className="w-full py-4 px-6 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors text-lg shadow-lg shadow-red-900/30"
           >
-            Create Room
+            {t('home.createRoom')}
           </button>
           <button
             onClick={() => setShowJoinForm(true)}
             className="w-full py-4 px-6 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-colors text-lg"
           >
-            Join Room
+            {t('home.joinRoom')}
           </button>
         </div>
       )}
@@ -97,18 +103,18 @@ export default function Home() {
       {/* Create Room Form */}
       {showCreateForm && (
         <form onSubmit={handleCreateRoom} className="w-full max-w-xs space-y-4">
-          <h2 className="text-2xl font-bold text-white text-center mb-6">Create Room</h2>
+          <h2 className="text-2xl font-bold text-white text-center mb-6">{t('createRoom.title')}</h2>
 
           <div>
             <label htmlFor="create-nickname" className="block text-sm font-medium text-gray-300 mb-1">
-              Your Nickname
+              {t('createRoom.nickname')}
             </label>
             <input
               id="create-nickname"
               type="text"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
-              placeholder="Enter your nickname"
+              placeholder={t('createRoom.nicknamePlaceholder')}
               required
               maxLength={20}
               disabled={isLoading}
@@ -118,14 +124,14 @@ export default function Home() {
 
           <div>
             <label htmlFor="room-password" className="block text-sm font-medium text-gray-300 mb-1">
-              Room Password <span className="text-gray-500">(optional)</span>
+              {t('createRoom.password')} <span className="text-gray-500">({t('common.optional')})</span>
             </label>
             <input
               id="room-password"
               type="password"
               value={roomPassword}
               onChange={(e) => setRoomPassword(e.target.value)}
-              placeholder="Enter room password"
+              placeholder={t('createRoom.passwordPlaceholder')}
               maxLength={50}
               disabled={isLoading}
               className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent disabled:opacity-50"
@@ -137,7 +143,7 @@ export default function Home() {
             disabled={isLoading || !isConnected}
             className="w-full py-4 px-6 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors text-lg shadow-lg shadow-red-900/30 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? 'Creating...' : 'Create'}
+            {isLoading ? t('createRoom.creating') : t('createRoom.create')}
           </button>
 
           <button
@@ -151,7 +157,7 @@ export default function Home() {
             disabled={isLoading}
             className="w-full py-3 px-6 text-gray-400 hover:text-white transition-colors disabled:opacity-50"
           >
-            Back
+            {t('common.back')}
           </button>
         </form>
       )}
@@ -159,18 +165,18 @@ export default function Home() {
       {/* Join Room Form */}
       {showJoinForm && (
         <form onSubmit={handleJoinRoom} className="w-full max-w-xs space-y-4">
-          <h2 className="text-2xl font-bold text-white text-center mb-6">Join Room</h2>
+          <h2 className="text-2xl font-bold text-white text-center mb-6">{t('joinRoom.title')}</h2>
 
           <div>
             <label htmlFor="room-code" className="block text-sm font-medium text-gray-300 mb-1">
-              Room Code
+              {t('joinRoom.roomCode')}
             </label>
             <input
               id="room-code"
               type="text"
               value={joinCode}
               onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
-              placeholder="Enter room code"
+              placeholder={t('joinRoom.roomCodePlaceholder')}
               required
               maxLength={6}
               disabled={isLoading}
@@ -180,14 +186,14 @@ export default function Home() {
 
           <div>
             <label htmlFor="join-nickname" className="block text-sm font-medium text-gray-300 mb-1">
-              Your Nickname
+              {t('joinRoom.nickname')}
             </label>
             <input
               id="join-nickname"
               type="text"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
-              placeholder="Enter your nickname"
+              placeholder={t('joinRoom.nicknamePlaceholder')}
               required
               maxLength={20}
               disabled={isLoading}
@@ -197,14 +203,14 @@ export default function Home() {
 
           <div>
             <label htmlFor="join-password" className="block text-sm font-medium text-gray-300 mb-1">
-              Password <span className="text-gray-500">(if required)</span>
+              {t('joinRoom.password')} <span className="text-gray-500">({t('joinRoom.passwordHint')})</span>
             </label>
             <input
               id="join-password"
               type="password"
               value={joinPassword}
               onChange={(e) => setJoinPassword(e.target.value)}
-              placeholder="Enter room password"
+              placeholder={t('joinRoom.passwordPlaceholder')}
               maxLength={50}
               disabled={isLoading}
               className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent disabled:opacity-50"
@@ -216,7 +222,7 @@ export default function Home() {
             disabled={isLoading || !isConnected}
             className="w-full py-4 px-6 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors text-lg shadow-lg shadow-red-900/30 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? 'Joining...' : 'Join'}
+            {isLoading ? t('joinRoom.joining') : t('joinRoom.join')}
           </button>
 
           <button
@@ -231,14 +237,14 @@ export default function Home() {
             disabled={isLoading}
             className="w-full py-3 px-6 text-gray-400 hover:text-white transition-colors disabled:opacity-50"
           >
-            Back
+            {t('common.back')}
           </button>
         </form>
       )}
 
       {/* Footer */}
       <footer className="absolute bottom-4 text-gray-600 text-sm">
-        Play with friends in person or on Discord
+        {t('home.footer')}
       </footer>
     </main>
   );

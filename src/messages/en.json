@@ -1,0 +1,111 @@
+{
+  "common": {
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "back": "Back",
+    "loading": "Loading...",
+    "optional": "optional"
+  },
+  "home": {
+    "title": "SpyRoom",
+    "subtitle": "Find the spy among you",
+    "createRoom": "Create Room",
+    "joinRoom": "Join Room",
+    "footer": "Play with friends in person or on Discord"
+  },
+  "createRoom": {
+    "title": "Create Room",
+    "nickname": "Your Nickname",
+    "nicknamePlaceholder": "Enter your nickname",
+    "password": "Room Password",
+    "passwordPlaceholder": "Enter room password",
+    "creating": "Creating...",
+    "create": "Create"
+  },
+  "joinRoom": {
+    "title": "Join Room",
+    "roomCode": "Room Code",
+    "roomCodePlaceholder": "Enter room code",
+    "nickname": "Your Nickname",
+    "nicknamePlaceholder": "Enter your nickname",
+    "password": "Password",
+    "passwordHint": "if required",
+    "passwordPlaceholder": "Enter room password",
+    "joining": "Joining...",
+    "join": "Join"
+  },
+  "lobby": {
+    "roomCode": "Room Code:",
+    "players": "Players",
+    "host": "HOST",
+    "needMorePlayers": "Need at least 3 players to start (currently {count})",
+    "waitingForHost": "Waiting for host to start the game...",
+    "starting": "Starting...",
+    "startGame": "Start Game",
+    "leaveRoom": "Leave Room",
+    "footer": "Share the room code with friends to join"
+  },
+  "game": {
+    "timeRemaining": "Time remaining",
+    "youAreTheSpy": "You are the Spy",
+    "spyInstructions": "Try to figure out the location without revealing yourself!",
+    "theLocationIs": "The location is",
+    "findTheSpy": "Find the spy among you!",
+    "players": "Players",
+    "startVoting": "Start Voting",
+    "leaveRoom": "Leave Room"
+  },
+  "voting": {
+    "title": "Vote for the Spy",
+    "subtitle": "Who do you think is the spy?",
+    "voteSubmitted": "Vote submitted!",
+    "waitingForOthers": "Waiting for others... ({current}/{total})",
+    "voted": "Voted",
+    "submitting": "Submitting...",
+    "submitVote": "Submit Vote"
+  },
+  "results": {
+    "playersWin": "Players Win!",
+    "spyWins": "Spy Wins!",
+    "theSpyWas": "The spy was",
+    "theLocationWas": "The location was",
+    "votes": "Votes",
+    "votedFor": "voted for",
+    "playAgain": "Play Again",
+    "leaveRoom": "Leave Room"
+  },
+  "room": {
+    "loadingRoom": "Loading room..."
+  },
+  "locations": {
+    "Airport": "Airport",
+    "Bank": "Bank",
+    "Beach": "Beach",
+    "Casino": "Casino",
+    "Circus": "Circus",
+    "Hospital": "Hospital",
+    "Hotel": "Hotel",
+    "Military Base": "Military Base",
+    "Movie Studio": "Movie Studio",
+    "Ocean Liner": "Ocean Liner",
+    "Passenger Train": "Passenger Train",
+    "Pirate Ship": "Pirate Ship",
+    "Polar Station": "Polar Station",
+    "Police Station": "Police Station",
+    "Restaurant": "Restaurant",
+    "School": "School",
+    "Space Station": "Space Station",
+    "Submarine": "Submarine",
+    "Supermarket": "Supermarket",
+    "Theater": "Theater",
+    "University": "University",
+    "Airplane": "Airplane",
+    "Church": "Church",
+    "Corporate Party": "Corporate Party",
+    "Day Spa": "Day Spa",
+    "Embassy": "Embassy",
+    "Library": "Library",
+    "Night Club": "Night Club",
+    "Art Museum": "Art Museum"
+  }
+}

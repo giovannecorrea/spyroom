@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useTranslations, useLocale } from "next-intl";
 import { useSocket } from "@/hooks/useSocket";
 import { getSocket } from "@/lib/socket";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { Locale } from "@/i18n/config";
 
 function Timer({ startedAt, duration }: { startedAt: number; duration: number }) {
   const [timeLeft, setTimeLeft] = useState(0);
@@ -34,6 +37,8 @@ export default function RoomPage() {
   const params = useParams();
   const router = useRouter();
   const code = params.code as string;
+  const t = useTranslations();
+  const locale = useLocale() as Locale;
   const {
     isConnected,
     room,
@@ -98,10 +103,15 @@ export default function RoomPage() {
     playAgain();
   };
 
+  // Helper function to translate location names
+  const translateLocation = (location: string) => {
+    return t(`locations.${location}` as Parameters<typeof t>[0]);
+  };
+
   if (!room) {
     return (
       <main className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 flex flex-col items-center justify-center p-4">
-        <div className="text-white text-xl">Loading room...</div>
+        <div className="text-white text-xl">{t('room.loadingRoom')}</div>
       </main>
     );
   }
@@ -113,7 +123,7 @@ export default function RoomPage() {
         <div className="w-full max-w-md mt-8">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-white mb-4">
-              {results.spyCaught ? "Players Win!" : "Spy Wins!"}
+              {results.spyCaught ? t('results.playersWin') : t('results.spyWins')}
             </h1>
             <div
               className={`text-6xl mb-4 ${results.spyCaught ? "text-green-500" : "text-red-500"}`}
@@ -124,17 +134,17 @@ export default function RoomPage() {
 
           <div className="bg-gray-800/50 rounded-xl p-6 mb-6">
             <div className="text-center mb-4">
-              <p className="text-gray-400 text-sm">The spy was</p>
+              <p className="text-gray-400 text-sm">{t('results.theSpyWas')}</p>
               <p className="text-2xl font-bold text-red-500">{results.spyName}</p>
             </div>
             <div className="text-center">
-              <p className="text-gray-400 text-sm">The location was</p>
-              <p className="text-2xl font-bold text-white">{results.location}</p>
+              <p className="text-gray-400 text-sm">{t('results.theLocationWas')}</p>
+              <p className="text-2xl font-bold text-white">{translateLocation(results.location)}</p>
             </div>
           </div>
 
           <div className="bg-gray-800/50 rounded-xl p-6 mb-6">
-            <h3 className="text-lg font-semibold text-white mb-3">Votes</h3>
+            <h3 className="text-lg font-semibold text-white mb-3">{t('results.votes')}</h3>
             <ul className="space-y-2">
               {results.votes.map((vote) => (
                 <li
@@ -142,7 +152,7 @@ export default function RoomPage() {
                   className="flex justify-between text-sm text-gray-300"
                 >
                   <span>{vote.voterName}</span>
-                  <span className="text-gray-500">voted for</span>
+                  <span className="text-gray-500">{t('results.votedFor')}</span>
                   <span
                     className={vote.votedFor === results.spyId ? "text-green-400" : ""}
                   >
@@ -158,7 +168,7 @@ export default function RoomPage() {
               onClick={handlePlayAgain}
               className="w-full py-4 px-6 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors text-lg mb-4"
             >
-              Play Again
+              {t('results.playAgain')}
             </button>
           )}
 
@@ -166,7 +176,7 @@ export default function RoomPage() {
             onClick={leaveRoom}
             className="w-full py-3 px-6 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-colors"
           >
-            Leave Room
+            {t('results.leaveRoom')}
           </button>
         </div>
       </main>
@@ -181,8 +191,8 @@ export default function RoomPage() {
       <main className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 flex flex-col items-center p-4">
         <div className="w-full max-w-md mt-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">Vote for the Spy</h1>
-            <p className="text-gray-400">Who do you think is the spy?</p>
+            <h1 className="text-3xl font-bold text-white mb-2">{t('voting.title')}</h1>
+            <p className="text-gray-400">{t('voting.subtitle')}</p>
           </div>
 
           {error && (
@@ -194,10 +204,12 @@ export default function RoomPage() {
           {hasVoted ? (
             <div className="bg-gray-800/50 rounded-xl p-6 mb-6 text-center">
               <div className="text-4xl mb-4">✓</div>
-              <p className="text-white text-lg">Vote submitted!</p>
+              <p className="text-white text-lg">{t('voting.voteSubmitted')}</p>
               <p className="text-gray-400 mt-2">
-                Waiting for others... ({game.players.filter((p) => p.hasVoted).length}/
-                {game.players.length})
+                {t('voting.waitingForOthers', {
+                  current: game.players.filter((p) => p.hasVoted).length,
+                  total: game.players.length
+                })}
               </p>
             </div>
           ) : (
@@ -217,7 +229,7 @@ export default function RoomPage() {
                         <span className="font-medium">{player.nickname}</span>
                         {player.hasVoted && (
                           <span className="text-xs bg-gray-600 px-2 py-1 rounded">
-                            Voted
+                            {t('voting.voted')}
                           </span>
                         )}
                       </button>
@@ -231,7 +243,7 @@ export default function RoomPage() {
                 disabled={!selectedVote || isLoading}
                 className="w-full py-4 px-6 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors text-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? "Submitting..." : "Submit Vote"}
+                {isLoading ? t('voting.submitting') : t('voting.submitVote')}
               </button>
             </>
           )}
@@ -248,7 +260,7 @@ export default function RoomPage() {
           {/* Timer */}
           <div className="text-center mb-8">
             <Timer startedAt={game.roundStartedAt} duration={game.roundDuration} />
-            <p className="text-gray-400 text-sm mt-2">Time remaining</p>
+            <p className="text-gray-400 text-sm mt-2">{t('game.timeRemaining')}</p>
           </div>
 
           {/* Role Reveal */}
@@ -262,17 +274,17 @@ export default function RoomPage() {
             {game.isSpy ? (
               <>
                 <div className="text-6xl mb-4">🕵️</div>
-                <h2 className="text-2xl font-bold text-red-400 mb-2">You are the Spy</h2>
+                <h2 className="text-2xl font-bold text-red-400 mb-2">{t('game.youAreTheSpy')}</h2>
                 <p className="text-gray-300">
-                  Try to figure out the location without revealing yourself!
+                  {t('game.spyInstructions')}
                 </p>
               </>
             ) : (
               <>
                 <div className="text-6xl mb-4">📍</div>
-                <p className="text-gray-400 text-sm mb-1">The location is</p>
-                <h2 className="text-3xl font-bold text-white">{game.location}</h2>
-                <p className="text-gray-300 mt-4">Find the spy among you!</p>
+                <p className="text-gray-400 text-sm mb-1">{t('game.theLocationIs')}</p>
+                <h2 className="text-3xl font-bold text-white">{translateLocation(game.location!)}</h2>
+                <p className="text-gray-300 mt-4">{t('game.findTheSpy')}</p>
               </>
             )}
           </div>
@@ -280,7 +292,7 @@ export default function RoomPage() {
           {/* Players */}
           <div className="bg-gray-800/50 rounded-xl p-6 mb-6">
             <h3 className="text-lg font-semibold text-white mb-3">
-              Players ({game.players.length})
+              {t('game.players')} ({game.players.length})
             </h3>
             <ul className="space-y-2">
               {game.players.map((player) => (
@@ -291,7 +303,7 @@ export default function RoomPage() {
                   <span className="text-white">{player.nickname}</span>
                   {player.isHost && (
                     <span className="text-xs bg-red-600 text-white px-2 py-1 rounded">
-                      HOST
+                      {t('lobby.host')}
                     </span>
                   )}
                 </li>
@@ -305,7 +317,7 @@ export default function RoomPage() {
               onClick={handleStartVoting}
               className="w-full py-4 px-6 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg transition-colors text-lg mb-4"
             >
-              Start Voting
+              {t('game.startVoting')}
             </button>
           )}
 
@@ -313,7 +325,7 @@ export default function RoomPage() {
             onClick={leaveRoom}
             className="w-full py-3 px-6 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-colors"
           >
-            Leave Room
+            {t('game.leaveRoom')}
           </button>
         </div>
       </main>
@@ -323,11 +335,12 @@ export default function RoomPage() {
   // LOBBY STATE (default)
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 flex flex-col items-center p-4">
-      {/* Connection Status */}
-      <div className="absolute top-4 right-4">
+      {/* Connection Status & Language Switcher */}
+      <div className="absolute top-4 right-4 flex items-center gap-3">
+        <LanguageSwitcher currentLocale={locale} />
         <div
           className={`w-3 h-3 rounded-full ${isConnected ? "bg-green-500" : "bg-red-500"}`}
-          title={isConnected ? "Connected" : "Disconnected"}
+          title={isConnected ? t('common.connected') : t('common.disconnected')}
         />
       </div>
 
@@ -338,7 +351,7 @@ export default function RoomPage() {
             Spy<span className="text-red-500">Room</span>
           </h1>
           <div className="flex items-center justify-center gap-2">
-            <span className="text-gray-400">Room Code:</span>
+            <span className="text-gray-400">{t('lobby.roomCode')}</span>
             <span className="text-2xl font-mono font-bold text-white tracking-widest bg-gray-800 px-4 py-2 rounded-lg">
               {code}
             </span>
@@ -355,7 +368,7 @@ export default function RoomPage() {
         {/* Players List */}
         <div className="bg-gray-800/50 rounded-xl p-6 mb-6">
           <h2 className="text-xl font-semibold text-white mb-4">
-            Players ({room.players.length})
+            {t('lobby.players')} ({room.players.length})
           </h2>
           <ul className="space-y-2">
             {room.players.map((player) => (
@@ -366,7 +379,7 @@ export default function RoomPage() {
                 <span className="text-white font-medium">{player.nickname}</span>
                 {player.isHost && (
                   <span className="text-xs bg-red-600 text-white px-2 py-1 rounded">
-                    HOST
+                    {t('lobby.host')}
                   </span>
                 )}
               </li>
@@ -377,7 +390,7 @@ export default function RoomPage() {
         {/* Waiting / Start Game */}
         {room.players.length < 3 ? (
           <div className="text-center text-gray-400 mb-6">
-            Need at least 3 players to start (currently {room.players.length})
+            {t('lobby.needMorePlayers', { count: room.players.length })}
           </div>
         ) : isHost ? (
           <button
@@ -385,11 +398,11 @@ export default function RoomPage() {
             disabled={isLoading || !isConnected}
             className="w-full py-4 px-6 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors text-lg shadow-lg shadow-red-900/30 disabled:opacity-50 disabled:cursor-not-allowed mb-4"
           >
-            {isLoading ? "Starting..." : "Start Game"}
+            {isLoading ? t('lobby.starting') : t('lobby.startGame')}
           </button>
         ) : (
           <div className="text-center text-gray-400 mb-6">
-            Waiting for host to start the game...
+            {t('lobby.waitingForHost')}
           </div>
         )}
 
@@ -398,13 +411,13 @@ export default function RoomPage() {
           onClick={leaveRoom}
           className="w-full py-3 px-6 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-colors"
         >
-          Leave Room
+          {t('lobby.leaveRoom')}
         </button>
       </div>
 
       {/* Footer */}
       <footer className="absolute bottom-4 text-gray-600 text-sm">
-        Share the room code with friends to join
+        {t('lobby.footer')}
       </footer>
     </main>
   );

@@ -1,0 +1,111 @@
+{
+  "common": {
+    "connected": "Conectado",
+    "disconnected": "Desconectado",
+    "back": "Voltar",
+    "loading": "Carregando...",
+    "optional": "opcional"
+  },
+  "home": {
+    "title": "SpyRoom",
+    "subtitle": "Encontre o espião entre voces",
+    "createRoom": "Criar Sala",
+    "joinRoom": "Entrar na Sala",
+    "footer": "Jogue com amigos pessoalmente ou no Discord"
+  },
+  "createRoom": {
+    "title": "Criar Sala",
+    "nickname": "Seu Apelido",
+    "nicknamePlaceholder": "Digite seu apelido",
+    "password": "Senha da Sala",
+    "passwordPlaceholder": "Digite a senha da sala",
+    "creating": "Criando...",
+    "create": "Criar"
+  },
+  "joinRoom": {
+    "title": "Entrar na Sala",
+    "roomCode": "Codigo da Sala",
+    "roomCodePlaceholder": "Digite o codigo da sala",
+    "nickname": "Seu Apelido",
+    "nicknamePlaceholder": "Digite seu apelido",
+    "password": "Senha",
+    "passwordHint": "se necessario",
+    "passwordPlaceholder": "Digite a senha da sala",
+    "joining": "Entrando...",
+    "join": "Entrar"
+  },
+  "lobby": {
+    "roomCode": "Código da Sala:",
+    "players": "Jogadores",
+    "host": "ANFITRIÃO",
+    "needMorePlayers": "Precisa de pelo menos 3 jogadores para começar (atualmente {count})",
+    "waitingForHost": "Aguardando o anfitrião iniciar o jogo...",
+    "starting": "Iniciando...",
+    "startGame": "Iniciar Jogo",
+    "leaveRoom": "Sair da Sala",
+    "footer": "Compartilhe o código da sala com amigos para entrar"
+  },
+  "game": {
+    "timeRemaining": "Tempo restante",
+    "youAreTheSpy": "Você é o Espião",
+    "spyInstructions": "Tente descobrir o local sem se revelar!",
+    "theLocationIs": "O local é",
+    "findTheSpy": "Encontre o espião entre vocês!",
+    "players": "Jogadores",
+    "startVoting": "Iniciar Votação",
+    "leaveRoom": "Sair da Sala"
+  },
+  "voting": {
+    "title": "Vote no Espião",
+    "subtitle": "Quem você acha que é o espião?",
+    "voteSubmitted": "Voto enviado!",
+    "waitingForOthers": "Aguardando os outros... ({current}/{total})",
+    "voted": "Votou",
+    "submitting": "Enviando...",
+    "submitVote": "Enviar Voto"
+  },
+  "results": {
+    "playersWin": "Jogadores Vencem!",
+    "spyWins": "Espião Vence!",
+    "theSpyWas": "O espião era",
+    "theLocationWas": "O local era",
+    "votes": "Votos",
+    "votedFor": "votou em",
+    "playAgain": "Jogar Novamente",
+    "leaveRoom": "Sair da Sala"
+  },
+  "room": {
+    "loadingRoom": "Carregando sala..."
+  },
+  "locations": {
+    "Airport": "Aeroporto",
+    "Bank": "Banco",
+    "Beach": "Praia",
+    "Casino": "Cassino",
+    "Circus": "Circo",
+    "Hospital": "Hospital",
+    "Hotel": "Hotel",
+    "Military Base": "Base Militar",
+    "Movie Studio": "Estúdio de Cinema",
+    "Ocean Liner": "Transatlântico",
+    "Passenger Train": "Trem de Passageiros",
+    "Pirate Ship": "Navio Pirata",
+    "Polar Station": "Estação Polar",
+    "Police Station": "Delegacia",
+    "Restaurant": "Restaurante",
+    "School": "Escola",
+    "Space Station": "Estação Espacial",
+    "Submarine": "Submarino",
+    "Supermarket": "Supermercado",
+    "Theater": "Teatro",
+    "University": "Universidade",
+    "Airplane": "Avião",
+    "Church": "Igreja",
+    "Corporate Party": "Festa Corporativa",
+    "Day Spa": "Spa",
+    "Embassy": "Embaixada",
+    "Library": "Biblioteca",
+    "Night Club": "Boate",
+    "Art Museum": "Museu de Arte"
+  }
+}
