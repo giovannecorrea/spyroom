@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "npx ts-node --project tsconfig.server.json server.ts",
-    "build": "next build",
-    "start": "node server.js",
+    "build": "npm run build:server && next build",
+    "build:server": "npx tsc --project tsconfig.server.json",
+    "start": "cross-env NODE_ENV=production node server.js",
     "lint": "eslint"
   },
   "dependencies": {
@@ -22,6 +23,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.2",
     "tailwindcss": "^4",

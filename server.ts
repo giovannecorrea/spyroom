@@ -6,7 +6,7 @@ import { ClientToServerEvents, ServerToClientEvents } from './src/types/events';
 import { gameStore } from './src/server/store';
 
 const dev = process.env.NODE_ENV !== 'production';
-const hostname = 'localhost';
+const hostname = dev ? 'localhost' : '0.0.0.0';
 const port = parseInt(process.env.PORT || '3000', 10);
 
 const app = next({ dev, hostname, port });
@@ -20,7 +20,7 @@ app.prepare().then(() => {
 
   const io = new Server<ClientToServerEvents, ServerToClientEvents>(httpServer, {
     cors: {
-      origin: dev ? ['http://localhost:3000'] : [],
+      origin: dev ? ['http://localhost:3000'] : true,
       methods: ['GET', 'POST'],
     },
   });
