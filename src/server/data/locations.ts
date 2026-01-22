@@ -23,7 +23,6 @@ export const LOCATIONS = [
   'Airplane',
   'Church',
   'Corporate Party',
-  'Crusader Army',
   'Day Spa',
   'Embassy',
   'Library',
